@@ -11,6 +11,7 @@ struct ContentView: View {
     
     @State var years: Int?
     @State var months: Int?
+    @State var result: Int?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -31,6 +32,27 @@ struct ContentView: View {
             )
 //            .textFieldStyle(.roundedBorder)
 //            .keyboardType(.numberPad)
+            Text("Porte:")
+            if let result {
+                Text("Seu cachorro tem, em idade humana...")
+                Text("\(result) anos")
+            } else {
+                Image(ImageResource.clarinha)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: 150)
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+            }
+            Button("Cãocular") {
+                print("Cãocular")
+                result = 23
+            }
+            .frame(maxWidth: .infinity)
+            .frame(maxHeight: 50)
+            .background(.indigo)
+            .foregroundStyle(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .bold()
         }
         .textFieldStyle(.roundedBorder)
         .keyboardType(.numberPad)
