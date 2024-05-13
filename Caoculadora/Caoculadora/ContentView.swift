@@ -12,36 +12,35 @@ struct ContentView: View {
     @State var years: Int?
     @State var months: Int?
     @State var result: Int?
-    
-    let portes = ["Pequeno", "Médio", "Grande"]
-    @State var porteSelecionado = "Pequeno"
+    @State var porteSelected = Porte.pequeno
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20.0) {
 //            Spacer()
             Text("Qual a idade do seu cão?")
+                .font(.header5)
             Text("Anos:")
+                .font(.body1)
             TextField(
                 "Quantos anos completos tem o seu cão?",
                 value: $years,
                 format: .number
             )
-//            .textFieldStyle(.roundedBorder)
-//            .keyboardType(.numberPad)
+
             Text("Meses:")
+                .font(.body1)
             TextField(
                 "E quanto meses além disso ele tem?",
                 value: $months,
                 format: .number
             )
-//            .textFieldStyle(.roundedBorder)
-//            .keyboardType(.numberPad)
-//            Spacer()
+
             Text("Porte:")
+                .font(.body1)
             
-            Picker("Portes", selection: $porteSelecionado) {
-                ForEach(portes, id:\.self) { porte
-                    in Text(porte)
+            Picker("Portes", selection: $porteSelected) {
+                ForEach(Porte.allCases, id:\.self) { porte
+                    in Text(porte.rawValue)
                 }
             }.pickerStyle(.segmented)
             
@@ -50,7 +49,9 @@ struct ContentView: View {
             
             if let result {
                 Text("Seu cachorro tem, em idade humana...")
+                    .font(.body1)
                 Text("\(result) anos")
+                    .font(.display)
             } else {
                 Image(ImageResource.clarinha)
                 .resizable()
@@ -69,6 +70,7 @@ struct ContentView: View {
             .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .bold()
+            .font(.body1)
         }
         .textFieldStyle(.roundedBorder)
         .keyboardType(.numberPad)
@@ -87,15 +89,13 @@ struct ContentView: View {
         }
     
         var multiplicador: Int = 0
-        switch porteSelecionado {
-        case "Pequeno":
+        switch porteSelected {
+        case .pequeno:
             multiplicador = 6
-        case "Médio":
+        case .medio:
             multiplicador = 7
-        case "Grande":
+        case .grande:
             multiplicador = 8
-        default:
-            multiplicador = 0
         }
         result = years * multiplicador + months * multiplicador/12
     }
