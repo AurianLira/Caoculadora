@@ -13,6 +13,8 @@ struct ContentView: View {
     @State var months: Int?
     @State var result: Int?
     @State var porteSelected = Porte.pequeno
+    @State var failedInput = false
+    let tituloPreencherCampos = "Preencha campos para cãocular"
     
     var body: some View {
         NavigationStack {
@@ -51,8 +53,11 @@ struct ContentView: View {
                     if let result {
                         Text("Seu cachorro tem, em idade humana...")
                             .font(.body1)
+                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                         Text("\(result) anos")
                             .font(.display)
+                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                            .contentTransition(.numericText())
                     } else {
                         Image(ImageResource.clarinha)
                             .resizable()
@@ -77,7 +82,11 @@ struct ContentView: View {
                 .keyboardType(.numberPad)
                 .padding()
                 .containerRelativeFrame(.vertical)
+                .animation(.easeInOut.speed(0.5), value: result)
             }
+            .alert(tituloPreencherCampos, isPresented: $failedInput, actions: {
+                Button("OK", role: .cancel, action: {})
+            })
             .navigationTitle("Cãoculadora")
             .scrollDismissesKeyboard(.immediately)
             .toolbarBackground(.indigo, for: .navigationBar)
@@ -94,6 +103,7 @@ extension ContentView {
         print("Cãocular")
         guard let years, let months else {
             print("Campos não preenchidos")
+            failedInput = true
             return
         }
         guard months > 0 || years > 0 else {
@@ -101,7 +111,9 @@ extension ContentView {
             return
         }
         
-        result = porteSelected.calcularIdade(deAnos: years, eMeses: months)
+        withAnimation(.easeInOut.speed(0.5)){
+            result = porteSelected.calcularIdade(deAnos: years, eMeses: months)
+        }
     }
 }
 
