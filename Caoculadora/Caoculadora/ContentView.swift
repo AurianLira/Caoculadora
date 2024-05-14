@@ -16,7 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20.0) {
-//            Spacer()
+            //            Spacer()
             Text("Qual a idade do seu cão?")
                 .font(.header5)
             Text("Anos:")
@@ -26,7 +26,7 @@ struct ContentView: View {
                 value: $years,
                 format: .number
             )
-
+            
             Text("Meses:")
                 .font(.body1)
             TextField(
@@ -34,7 +34,7 @@ struct ContentView: View {
                 value: $months,
                 format: .number
             )
-
+            
             Text("Porte:")
                 .font(.body1)
             
@@ -54,23 +54,23 @@ struct ContentView: View {
                     .font(.display)
             } else {
                 Image(ImageResource.clarinha)
-                .resizable()
-                .scaledToFit()
-                .frame(maxHeight: 150)
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                .shadow(radius: 20)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: 150)
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                    .shadow(radius: 20)
             }
             
             Spacer()
             
             Button("Cãocular", action: processYears)
-            .frame(maxWidth: .infinity)
-            .frame(maxHeight: 50)
-            .background(.indigo)
-            .foregroundStyle(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .bold()
-            .font(.body1)
+                .frame(maxWidth: .infinity)
+                .frame(maxHeight: 50)
+                .background(.indigo)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .bold()
+                .font(.body1)
         }
         .textFieldStyle(.roundedBorder)
         .keyboardType(.numberPad)
@@ -87,17 +87,8 @@ struct ContentView: View {
             print("Ao menos um campo deve ser maior que zero")
             return
         }
-    
-        var multiplicador: Int = 0
-        switch porteSelected {
-        case .pequeno:
-            multiplicador = 6
-        case .medio:
-            multiplicador = 7
-        case .grande:
-            multiplicador = 8
-        }
-        result = years * multiplicador + months * multiplicador/12
+        
+        result = porteSelected.calcularIdade(deAnos: years, eMeses: months)
     }
 }
 
